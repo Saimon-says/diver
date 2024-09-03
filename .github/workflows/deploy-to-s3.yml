@@ -19,3 +19,4 @@ jobs:
           bucket: diver-web-app-test
           source: .
           acl: public-read
+          github-token: ${{ secrets.GITHUB_TOKEN }}
