@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Sync to S3
 
 on:
   push:
@@ -6,17 +6,18 @@ on:
       - main
 
 jobs:
-  deploy:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Deploy to S3
-        uses: aws-actions/s3-sync@latest
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.DIVER_S3_ACCESS_USER_KEY_ID }}
           aws-secret-access-key: ${{ secrets.DIVER_S3_ACCESS_USER_ACCESS_KEY }}
-          bucket: diver-web-app-test
-          source: .
-          acl: public-read
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          aws-region: us-east-1  # Change this to your region of your bucket
+
+      - name: Sync to S3
+        run: aws s3 sync. s3://diver-web-app-test # Change this to your bucket name
